@@ -12,14 +12,12 @@ class ApiClient {
   ApiClient._internal() {
     // For physical device testing, use your local network IP
     // For emulator use 10.0.2.2, for web use localhost
-    // Use --dart-define=API_URL=https://your-api.com to set production URL
-    const productionUrl = String.fromEnvironment('API_URL');
+    // Production URL - change this when deploying
+    const productionUrl = 'https://study-app-backend-rb5e.onrender.com';
     
-    final baseUrl = productionUrl.isNotEmpty 
-        ? productionUrl
-        : ((kIsWeb || !Platform.isAndroid)
-            ? 'http://localhost:3000'
-            : 'http://192.168.1.47:3000'); // Local Dev Fallback
+    // Use production URL, or local dev fallback if explicitly set
+    const envUrl = String.fromEnvironment('API_URL');
+    final baseUrl = envUrl.isNotEmpty ? envUrl : productionUrl;
     
     _dio = Dio(
       BaseOptions(
