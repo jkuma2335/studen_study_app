@@ -22,14 +22,17 @@ import { QuizModule } from './quiz/quiz.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5435,
-      username: 'student_study_user',
-      password: 'student_study_password',
-      database: 'student_study_db',
+      // Use DATABASE_URL if available (production), otherwise use local dev settings
+      url: process.env.DATABASE_URL,
+      host: process.env.DATABASE_URL ? undefined : 'localhost',
+      port: process.env.DATABASE_URL ? undefined : 5435,
+      username: process.env.DATABASE_URL ? undefined : 'student_study_user',
+      password: process.env.DATABASE_URL ? undefined : 'student_study_password',
+      database: process.env.DATABASE_URL ? undefined : 'student_study_db',
       autoLoadEntities: true,
-      synchronize: true, // Set to false in production
-      logging: true,
+      synchronize: true, // Set to false in production with migrations
+      logging: !process.env.DATABASE_URL, // Log only in development
+      ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
     }),
     SubjectsModule,
     AssignmentsModule,
