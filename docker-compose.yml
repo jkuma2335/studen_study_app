@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: student_study_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: student_study_user
+      POSTGRES_PASSWORD: student_study_password
+      POSTGRES_DB: student_study_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U student_study_user -d student_study_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+
