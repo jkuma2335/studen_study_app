@@ -12,7 +12,7 @@ import { UsersModule } from '../users/users.module';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: 'super-secret-key',
+      secret: process.env.JWT_SECRET || 'super-secret-key-dev',
       signOptions: { expiresIn: '7d' },
     }),
     UsersModule, // Import UsersModule to access User repository
@@ -21,4 +21,4 @@ import { UsersModule } from '../users/users.module';
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }
