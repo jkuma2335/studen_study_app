@@ -17,7 +17,7 @@ import { CreateDocumentDto } from './dto/create-document.dto';
 
 @Controller('documents')
 export class DocumentsController {
-  constructor(private readonly documentsService: DocumentsService) {}
+  constructor(private readonly documentsService: DocumentsService) { }
 
   @Post('upload')
   @UseInterceptors(
@@ -59,7 +59,7 @@ export class DocumentsController {
     }),
   )
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: any,
     @Body('subjectId') subjectId: string,
   ) {
     if (!file) {
